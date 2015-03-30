@@ -17,6 +17,9 @@ def copy_files(local_path, users_path, files, dev=false)
   if dev
      FileUtils.cp_r local_path + "/spec", users_path, :verbose => true
      FileUtils.cp_r local_path + '/.rspec', users_path, :verbose => true
+     if ARGV[0] == 'install'
+       FileUtils.cp_r local_path + '/Gemfile.dev', users_path + "/Gemfile", :verbose => true
+     end
   end
 end
 
@@ -36,10 +39,10 @@ elsif ARGV[0] == 'update'
     copy_files(local_path, users_path, files)
   end
   puts "done!"
-end
-
-if ARGV[0] == '--help' || ARGV[0] == '-h' || ARGV[0].nil?
+elsif ARGV[0] == '--help' || ARGV[0] == '-h' || ARGV[0].nil?
   puts 'ec install, copies all the required files in the current directory.'
   puts 'ec update, same as install but skips _config.yml and Gemfile.'
   puts 'pass the --dev flag to "ec install" or "ec update" to also copy the test suite.'
+else
+  puts "Uknown command : #{ARGV[0]}, see ec --help for available commands."
 end
