@@ -83,6 +83,11 @@ It will recopy all the files but keeps your _config.yml and Gemfile.
 'rake adduser' you should always run this and not adding new users in _config.yml  
 by hand since it also bcypts your passwords!
 
+##TODO:
+* pagination in GET /comments  
+* markdown support  
+* dynamic fields in POST /comment  
+
 ## Contributing
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
