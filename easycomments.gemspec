@@ -12,9 +12,6 @@ EOF
   s.files       = `git ls-files`.split("\n")
   s.executables << 'ec'
 
-  s.add_development_dependency 'airborne', '~> 0.1', '>=0.1.15'
-  s.add_development_dependency "rake", '~> 10.4', '>= 10.4.2'
-
   s.authors = ["Zisis Maras"]
   s.email = 'zisismaras@gmail.com'
   s.homepage = 'https://github.com/zisismaras/easycomments'

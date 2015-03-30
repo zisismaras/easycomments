@@ -3,8 +3,9 @@ connection: "sqlite://blog.db"
 approve_by_default: false
 allow_anonymous_post: false
 timestamp_format: "%d/%m/%Y - %H:%M"
-allow_cors: false
+allow_cors: true
 cors_origin: "*"
+auto_escape_html: true
 :users:
 #
 ##connection : database connection url to be passed to sequel's connect method.
@@ -21,6 +22,8 @@ cors_origin: "*"
 ##allow_cors : set to true to enable cross-origin resource sharing.
 #
 ##cors_origin : see available formats here https://github.com/cyu/rack-cors
+#
+##auto_escape_html : automatically escape html in comment bodys
 #
 ##users : do not edit this by hand use 'rake adduser' instead.
 #

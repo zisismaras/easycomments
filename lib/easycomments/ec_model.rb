@@ -35,7 +35,7 @@ module ECModel
   end
 
   def save_comment(comment)
-    comment = escape_comment(comment)
+    comment = escape_comment(comment) if AUTO_ESCAPE_HTML
     DB[:comments].insert(:post => comment[:post],
                     :name => comment[:name],
                     :email => comment[:email],

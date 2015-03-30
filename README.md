@@ -14,8 +14,12 @@ and then(if you installed the gem) in a directory run
 ```ruby
 ec install
 ```
-(pass the --dev flag if you also want the spec suite)
-
+(pass the --dev flag if you also want the spec suite)  
+Then
+```ruby
+bundle install
+```
+and you are ready.
 ##Configuring
 Edit _config.yml and add your database (all adapters supported by sequel can be used)
 and change any other option you need.
@@ -69,7 +73,10 @@ timestamp_format: "%d/%m/%Y - %H:%M"
 allow_cors: false
 
 #see available formats here https://github.com/cyu/rack-cors
-cors_origin: "*"
+cors_origin: "*"  
+
+#set to false to not automatically escape html in comment bodys  
+auto_escape_html: true
 ```
 
 ## Updating

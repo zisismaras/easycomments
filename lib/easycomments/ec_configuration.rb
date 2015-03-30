@@ -13,6 +13,7 @@ module Configuration
   PASSWORD = CONFIG["password"]
   ALLOW_CORS = CONFIG["allow_cors"]
   CORS_ORIGIN = CONFIG["cors_origin"]
+  AUTO_ESCAPE_HTML = CONFIG["auto_escape_html"]
 
 #wall of help text to be added in _config.yml
   def comment_wall
@@ -32,6 +33,8 @@ comments = <<COMMENTS
 ##allow_cors : set to true to enable cross-origin resource sharing.
 #
 ##cors_origin : see available formats here https://github.com/cyu/rack-cors
+#
+##auto_escape_html : automatically escape html in comment bodys
 #
 ##users : do not edit this by hand use 'rake adduser' instead.
 #

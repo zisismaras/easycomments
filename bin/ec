@@ -5,7 +5,7 @@ require 'fileutils'
 local_path = File.expand_path("../../", __FILE__)
 users_path = Dir.pwd
 
-files  = %w(ec.rb dashboard.rb config.ru _config.yml Rakefile Gemfile)
+files  = %w(ec.rb dashboard.rb config.ru _config.yml Rakefile Gemfile README.md LICENSE)
 
 def copy_files(local_path, users_path, files, dev=false)
   files.each do |filename|
