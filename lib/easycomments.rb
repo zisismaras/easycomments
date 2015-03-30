@@ -7,7 +7,7 @@ require 'rack/protection'
 require 'bcrypt'
 require_relative "easycomments/ec_configuration.rb"
 
-VERSION = "1.0.1"
+VERSION = "1.0.2"
 
 include Configuration
 
