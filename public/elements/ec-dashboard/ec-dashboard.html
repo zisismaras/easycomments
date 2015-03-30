@@ -1,0 +1,269 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="ec-dashboard">
+  <template>
+    <style>
+      html,body {
+        background-color: #E5E5E5;
+        font-family: 'RobotoDraft', sans-serif;
+      }
+      core-header-panel {
+        overflow: visible
+        -webkit-overflow-scrolling: touch;
+        background-color: #E0E0E0;
+        word-wrap:break-word;
+      }
+      core-scaffold::shadow core-toolbar {
+        background-color: #FFA726;
+      }
+      .core-header {
+        height: 100px;
+        line-height: 60px;
+        font-size: 24px;
+        padding: 0px 40px;
+        background-color: #E0E0E0;
+        color: #616161;
+        transition: height 0.2s;
+      }
+      textarea {
+        width: 96%;
+        margin-left: 2%;
+        margin-right: 2%;
+      }
+      #content {
+        padding: 20px;
+      }
+      #approve {
+        width: 15%;
+      }
+      #controls {
+        padding-left: 2%;
+        padding-right: 2%;
+      }
+      #comment-title {
+        padding-left: 2%;
+        padding-right: 2%;
+        padding-top: 10px;
+      }
+      #post-button {
+        width: 95%;
+      }
+      core-menu {
+        padding-top: 10px;
+      }
+      paper-toggle-button::shadow [checked] .toggle {
+        background-color: #FF9800;
+      }
+      paper-toggle-button::shadow  .toggle-ink ,
+      paper-toggle-button::shadow [checked] .toggle-ink {
+        color: #FFB74D;
+      }
+      #post-button::shadow #ripple {
+        color: #FFA726;
+      }
+      .pending_number {
+        float: right;
+        padding: 0 6px;
+        line-height: 18px;
+        font-size: 11px;
+        background: #FFA726;
+        border-radius: 9px;
+        -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.2);
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.2);
+      }
+      paper-tabs::shadow #selectionBar {
+        background-color: #FFA726;
+      }
+      paper-tabs paper-tab::shadow #ink {
+        color: #FFA726;
+      }
+      a {
+        text-decoration: none !important;
+        color: #616161;
+      }
+    </style>
+    <core-ajax
+      auto
+      id="get_all_posts"
+      url="/dashboard/get_all_posts"
+      handleAs="json"
+      response="{{all_posts}}">
+    </core-ajax>
+    <core-ajax
+      auto
+      id="get_posts_with_pending"
+      url="/dashboard/get_posts_with_pending"
+      handleAs="json"
+      response="{{pending_posts}}">
+    </core-ajax>
+    <core-ajax
+      auto
+      id="get_total_pending"
+      url="/dashboard/get_total_pending"
+      handleAs="json"
+      response="{{total_pending}}">
+    </core-ajax>
+    <core-ajax
+      id="get_all_comments"
+      url="/dashboard/comments"
+      params='{"post":"{{post_global}}"}'
+      handleAs="json"
+      response="{{comments}}">
+    </core-ajax>
+    <core-ajax
+      id="get_pending_comments"
+      url="/dashboard/get_pending_comments"
+      params='{"post":"{{post_global}}"}'
+      handleAs="json"
+      response="{{comments}}">
+    </core-ajax>
+    <core-ajax
+      id="edit_comment"
+      url="/dashboard/edit_comment"
+      method="post"
+      params='{"id":"{{comment_id}}", "new_body":"{{new_body}}"}'
+      handleAs="json"
+      on-core-response="{{showToast}}">
+    </core-ajax>
+    <core-ajax
+      id="remove_comment"
+      url="/dashboard/remove_comment"
+      method="post"
+      params='{"id":"{{comment_id}}"}'
+      handleAs="json"
+      on-core-response="{{showToast}}">
+    </core-ajax>
+    <core-ajax
+      id="approve_comment"
+      url="/dashboard/change_approval_status"
+      method="post"
+      params='{"id":"{{comment_id}}"}'
+      handleAs="json"
+      on-core-response="{{showToast}}">
+    </core-ajax>
+    <core-ajax
+      id="ignore_comment"
+      url="/dashboard/ignore_comment"
+      method="post"
+      params='{"id":"{{comment_id}}"}'
+      handleAs="json"
+      on-core-response="{{showToast}}">
+    </core-ajax>
+
+    <paper-toast id="toast1" text=""></paper-toast>
+    <core-scaffold>
+      <core-header-panel navigation flex mode="seamed">
+        <paper-shadow><div  class="core-header"><a href="/">EasyComments</a></div></paper-shadow>
+        <core-menu>
+          <section is="auto-binding">
+            <paper-tabs selected="{{selected}}">
+              <paper-tab>Pending&nbsp;&nbsp;<span class="pending_number">{{total_pending.pending}}</span></paper-tab>
+              <paper-tab>All</paper-tab>
+            </paper-tabs>
+            <core-pages selected="{{selected}}">
+              <div>
+                <template repeat="{{post in pending_posts.pending}}">
+                  <paper-button id ="post-button" on-click="{{getPendingComments}}">{{post.post}}&nbsp;&nbsp;<span class="pending_number">{{post.pending}}</span></paper-button>
+                  <hr>
+                </template>
+              </div>
+              <div>
+                <template repeat="{{post in all_posts.posts}}">
+                  <paper-button id ="post-button" on-click="{{getComments}}">{{post}}</paper-button>
+                  <hr>
+                </template>
+              </div>
+            </core-pages>
+           </section>
+        </core-menu>
+      </core-header-panel>
+      <div tool id="title">{{post_title}}</div>
+      <div id ="content" fit>
+        <template repeat="{{comment in comments.comments}}">
+          <paper-shadow>
+            <p id="comment-title">{{comment.name}} - {{comment.email}} - {{comment.timestamp}}</p>
+            <paper-autogrow-textarea id="a1">
+              <textarea value="{{comment.body}}" rows="5"></textarea>
+            </paper-autogrow-textarea>
+            <div horizontal layout id="controls">
+              <div center horizontal layout id="approve" flex>
+                <div> Approval status&nbsp;&nbsp;</div>
+                <paper-toggle-button on-change="{{approveComment}}" checked="{{comment.approved}}"></paper-toggle-button>
+              </div>
+              <template if="{{!comment.action_taken}}">
+                  <core-icon-button icon="visibility-off" on-click="{{ignoreComment}}"> Ignore</core-icon-button>
+              </template>
+              <core-icon-button icon="editor:mode-edit" on-click="{{editComment}}"> Save</core-icon-button>
+              <core-icon-button icon="highlight-remove" on-click="{{removeComment}}"> Remove</core-icon-button>
+            </div>
+          </paper-shadow>
+        </template>
+      </div>
+    </core-scaffold>
+  </template>
+
+  <script>
+    Polymer('ec-dashboard', {
+        getComments: function(e, detail, sender){
+          var p = e.target.templateInstance.model.post;
+          this.post_title = p;
+          this.post_global = p;
+          this.shadowRoot.querySelector("#get_all_comments").go();
+        },
+        getPendingComments: function(e, detail, sender){
+          var p = e.target.templateInstance.model.post.post;
+          this.post_title = p;
+          this.post_global = p;
+          this.shadowRoot.querySelector("#get_pending_comments").go();
+        },
+        editComment: function(e, detail, sender){
+          var b = e.target.templateInstance.model.comment.body;
+          var d = e.target.templateInstance.model.comment.id;
+          this.new_body = b;
+          this.comment_id = d;
+          this.shadowRoot.querySelector("#edit_comment").go();
+          //refresh post list
+          this.refreshPosts();
+        },
+        removeComment: function(e, detail, sender){
+          var d = e.target.templateInstance.model.comment.id;
+          this.comment_id = d;
+          this.shadowRoot.querySelector("#remove_comment").go();
+          //refresh comment list
+          this.shadowRoot.querySelector("#get_all_comments").go();
+          //refresh post list
+          this.refreshPosts();
+          //na vgainei kai to title panw panw
+        },
+        approveComment: function(e, detail, sender){
+          var d = e.target.templateInstance.model.comment.id;
+          this.comment_id = d;
+          this.shadowRoot.querySelector("#approve_comment").go();
+          //refresh post list
+          this.refreshPosts();
+        },
+        ignoreComment: function(e, detail, sender){
+          var d = e.target.templateInstance.model.comment.id;
+          this.comment_id = d;
+          this.shadowRoot.querySelector("#ignore_comment").go();
+          //refresh post list
+          this.refreshPosts();
+          //refresh comment list
+          this.shadowRoot.querySelector("#get_pending_comments").go();
+        },
+        showToast: function(event, response) {
+          this.shadowRoot.querySelector('#toast1').text = response.response.status;
+          this.shadowRoot.querySelector('#toast1').show();
+        },
+        refreshPosts: function() {
+          this.shadowRoot.querySelector("#get_all_posts").go();
+          this.shadowRoot.querySelector("#get_posts_with_pending").go();
+          this.shadowRoot.querySelector("#get_total_pending").go();
+        },
+        attached: function() {
+          //open pending tab by default
+          this.selected = "0";
+        },
+    });
+  </script>
+</polymer-element>

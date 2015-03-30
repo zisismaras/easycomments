@@ -1,0 +1,41 @@
+html,body {
+  background-color: #E5E5E5;
+  font-family: 'RobotoDraft', sans-serif;
+}
+core-header-panel {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  background-color: #E5E5E5;
+}
+core-scaffold::shadow core-toolbar {
+  background-color: #9E9E9E;
+}
+.core-header {
+  height: 64px;
+  line-height: 60px;
+  font-size: 18px;
+  padding: 0 10px;
+  background-color: #9E9E9E;
+  color: #616161;
+  transition: height 0.2s;
+}
+a {
+  text-decoration: none !important;
+  color: #616161;
+}
+.content {
+  background-color: #E5E5E5;
+  margin: 30px;
+}
+.post-content {
+padding: 30px;
+}
+.post-title {
+background-color: #BDBDBD;
+color: #616161;
+height: 50px;
+}
+.post-meta {
+background-color: #BDBDBD;
+color: #616161;
+}

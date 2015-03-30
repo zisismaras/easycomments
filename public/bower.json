@@ -1,0 +1,32 @@
+{
+  "name": "easycomments_dashboard",
+  "version": "1.0.0",
+  "authors": [
+    "Zisis Maras <zisismaras@gmail.com>"
+  ],
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.5",
+    "paper-shadow": "Polymer/paper-shadow#~0.5.5",
+    "font-roboto": "Polymer/font-roboto#~0.5.5",
+    "paper-button": "Polymer/paper-button#~0.5.5",
+    "paper-input": "Polymer/paper-input#~0.5.5",
+    "core-scaffold": "Polymer/core-scaffold#~0.5.5",
+    "core-menu": "Polymer/core-menu#~0.5.5",
+    "core-item": "Polymer/core-item#~0.5.5",
+    "core-header-panel": "Polymer/core-header-panel#~0.5.5",
+    "core-ajax": "polymer/core-ajax#~0.5.5",
+    "paper-toast": "polymer/paper-toast#~0.5.5",
+    "paper-toggle-button": "polymer/paper-toggle-button#~0.5.5",
+    "paper-tabs": "polymer/paper-tabs#~0.5.5",
+    "core-pages": "polymer/core-pages#~0.5.5"
+  }
+}

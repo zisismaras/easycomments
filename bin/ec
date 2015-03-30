@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby
+#encoding: utf-8
+require 'fileutils'
+
+local_path = File.expand_path("../../", __FILE__)
+users_path = Dir.pwd
+
+files  = %w(ec.rb dashboard.rb config.ru _config.yml Rakefile Gemfile)
+
+def copy_files(local_path, users_path, files, dev=false)
+  files.each do |filename|
+    FileUtils.cp_r local_path + '/' + filename, users_path, :verbose => true
+  end
+  FileUtils.cp_r local_path + "/lib", users_path, :verbose => true
+  FileUtils.cp_r local_path + "/public", users_path, :verbose => true
+  FileUtils.cp_r local_path + "/views", users_path, :verbose => true
+  if dev
+     FileUtils.cp_r local_path + "/spec", users_path, :verbose => true
+     FileUtils.cp_r local_path + '/.rspec', users_path, :verbose => true
+  end
+end
+
+if ARGV[0] == 'install'
+  if ARGV[1] == '--dev'
+    copy_files(local_path, users_path, files, true)
+  else
+    copy_files(local_path, users_path, files)
+  end
+  puts "done!"
+elsif ARGV[0] == 'update'
+  files.delete("_config.yml")
+  files.delete("Gemfile")
+  if ARGV[1] == '--dev'
+    copy_files(local_path, users_path, files, true)
+  else
+    copy_files(local_path, users_path, files)
+  end
+  puts "done!"
+end
+
+if ARGV[0] == '--help' || ARGV[0] == '-h' || ARGV[0].nil?
+  puts 'ec install, copies all the required files in the current directory.'
+  puts 'ec update, same as install but skips _config.yml and Gemfile.'
+  puts 'pass the --dev flag to "ec install" or "ec update" to also copy the test suite.'
+end

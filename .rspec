@@ -1,0 +1,2 @@
+--default-path spec/ec
+--pattern **_spec.rb
