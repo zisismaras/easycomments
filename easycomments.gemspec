@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'easycomments'
-  s.version     = '1.0.0'
+  s.version     = '1.0.1'
   s.date        = '2015-03-30'
   s.summary     = "Simple and easy to use comment system"
   s.description = <<EOF
@@ -17,6 +17,6 @@ EOF
 
   s.authors = ["Zisis Maras"]
   s.email = 'zisismaras@gmail.com'
-  s.homepage = 'http://rubygems.org/gems/hola'
+  s.homepage = 'https://github.com/zisismaras/easycomments'
   s.license = 'MIT'
 end

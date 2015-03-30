@@ -1,4 +1,6 @@
 # EasyComments
+[![Gem Version](https://badge.fury.io/rb/easycomments.svg)](http://badge.fury.io/rb/easycomments)  
+
 EasyComments(EC) is an easy to use comment system with a simple api
 for posting and retrieving comments.It also comes bundled with a dashboard
 for moderating your comments.
