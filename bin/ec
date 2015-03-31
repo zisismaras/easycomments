@@ -17,9 +17,6 @@ def copy_files(local_path, users_path, files, dev=false)
   if dev
      FileUtils.cp_r local_path + "/spec", users_path, :verbose => true
      FileUtils.cp_r local_path + '/.rspec', users_path, :verbose => true
-     if ARGV[0] == 'install'
-       FileUtils.cp_r local_path + '/Gemfile.dev', users_path + "/Gemfile", :verbose => true
-     end
   end
 end
 

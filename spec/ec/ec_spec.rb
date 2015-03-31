@@ -74,7 +74,7 @@ describe 'ec' do
   end
   describe "GET /comments" do
     it "returns the comments successfully" do
-      get "/comments?post=#{example_post}"
+      get "/comments", {:post => example_post}
       expect_json_types({:comments => :array_of_objects})
     end
   end

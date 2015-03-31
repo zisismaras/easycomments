@@ -26,7 +26,7 @@ describe 'ec_dasboard' do
 
   describe "GET /comments" do
     it "returns the comments successfully" do
-      get "/comments?post=#{example_post}"
+      get "/comments", {:post => example_post}
       expect_json_types({:comments => :array_of_objects})
     end
   end
@@ -50,7 +50,7 @@ describe 'ec_dasboard' do
   end
   describe "GET /get_pending_comments" do
     it "returns the pending comments list for a post successfully" do
-      get "/get_pending_comments?post=#{example_post}"
+      get "/get_pending_comments", {:post => example_post}
       expect_json_types({:comments => :array_of_objects})
     end
   end
