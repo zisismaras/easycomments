@@ -3,7 +3,7 @@ connection: "sqlite://blog.db"
 approve_by_default: false
 allow_anonymous_post: false
 timestamp_format: "%d/%m/%Y - %H:%M"
-allow_cors: true
+allow_cors: false
 cors_origin: "*"
 auto_escape_html: true
 :users:

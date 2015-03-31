@@ -12,7 +12,10 @@ Airborne.configure do |config|
     $VERBOSE = original_verbosity
     db_setup
   end
-  config.before(:each) {add_new_comment}
+  config.before(:each) do 
+    add_new_comment
+    config.rack_app = ECDashboard
+  end
 end
 
 describe 'ec_dasboard' do
@@ -65,7 +68,7 @@ describe 'ec_dasboard' do
   end
   describe "POST /change_approval_status" do
     it "changes the approval status for a comment successfully" do
-      post "/change_approval_status", {:id => 3}
+      post "/change_approval_status", {:id => 1}
       expect_json({:status => "Approval status successfully changed."})
     end
   end

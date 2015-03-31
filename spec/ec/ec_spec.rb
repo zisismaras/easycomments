@@ -24,7 +24,10 @@ Airborne.configure do |config|
     ALLOW_ANONYMOUS_POST = false
     $VERBOSE = original_verbosity
   end
-  config.before(:each) {add_new_comment}
+  config.before(:each) do 
+    add_new_comment
+    config.rack_app = EC
+  end
 end
 
 describe 'ec' do

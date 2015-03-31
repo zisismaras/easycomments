@@ -1,7 +1,14 @@
 require "sequel"
 require 'io/console'
 require 'bcrypt'
+
+require "bundler/gem_tasks"
+require 'rspec/core/rake_task'
+
 require_relative "lib/easycomments/ec_configuration.rb"
+
+RSpec::Core::RakeTask.new
+task :default => :spec
 
 include Configuration
 

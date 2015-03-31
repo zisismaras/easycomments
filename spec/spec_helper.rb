@@ -1,4 +1,5 @@
 require "airborne"
+require 'sqlite3'
 
 require_relative "../ec.rb"
 require_relative "../dashboard.rb"

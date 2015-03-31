@@ -21,7 +21,7 @@ bundle install
 ```
 and you are ready.
 ##Configuring
-Edit _config.yml and add your database (all adapters supported by sequel can be used)
+Edit _config.yml to add your database (all adapters supported by sequel can be used)
 and change any other option you need.
 Then run
 ```ruby
@@ -88,7 +88,7 @@ It will recopy all the files but keeps your _config.yml and Gemfile.
 'rake init' creates the required table.  
 'rake update' run it after re-editing _config.yml to update the table.  
 'rake adduser' you should always run this and not adding new users in _config.yml  
-by hand since it also bcypts your passwords!
+by hand since it also bcrypts your passwords!
 
 ##TODO:
 * pagination in GET /comments  
