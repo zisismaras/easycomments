@@ -1,5 +1,7 @@
 # EasyComments
-[![Gem Version](https://badge.fury.io/rb/easycomments.svg)](http://badge.fury.io/rb/easycomments)  
+[![Gem Version](https://badge.fury.io/rb/easycomments.svg)](http://badge.fury.io/rb/easycomments)
+[![Build Status](https://travis-ci.org/zisismaras/easycomments.svg?branch=master)](https://travis-ci.org/zisismaras/easycomments)  
+
 
 EasyComments(EC) is an easy to use comment system with a simple api
 for posting and retrieving comments.It also comes bundled with a dashboard
@@ -101,6 +103,11 @@ by hand since it also bcrypts your passwords!
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+###Tested with
+* Ruby 2.2.1
+* Ruby 2.1.5
+* Ruby 2.0.0
 
 ###Licensed under MIT.
 
