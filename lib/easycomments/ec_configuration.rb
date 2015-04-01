@@ -14,6 +14,8 @@ module Configuration
   ALLOW_CORS = CONFIG["allow_cors"]
   CORS_ORIGIN = CONFIG["cors_origin"]
   AUTO_ESCAPE_HTML = CONFIG["auto_escape_html"]
+  PAGINATE = CONFIG["paginate"]
+  COMMENTS_PER_PAGE = CONFIG["comments_per_page"].to_i
 
 #wall of help text to be added in _config.yml
   def comment_wall
@@ -35,6 +37,10 @@ comments = <<COMMENTS
 ##cors_origin : see available formats here https://github.com/cyu/rack-cors
 #
 ##auto_escape_html : automatically escape html in comment bodys
+#
+##paginate : set to true to have pagination support in comment retrieval
+#
+##comments_per_page : how many comments to return per page if paginate is true
 #
 ##users : do not edit this by hand use 'rake adduser' instead.
 #

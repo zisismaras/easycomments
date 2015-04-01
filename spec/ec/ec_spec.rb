@@ -9,6 +9,7 @@ Airborne.configure do |config|
     original_verbosity = $VERBOSE
     $VERBOSE = nil
     DB = Sequel.sqlite
+    DB.extension(:pagination)
     $VERBOSE = original_verbosity
     db_setup
   end
@@ -27,6 +28,18 @@ Airborne.configure do |config|
   config.before(:each) do 
     add_new_comment
     config.rack_app = EC
+  end
+  config.before(:each, :paginate => false) do
+    original_verbosity = $VERBOSE
+    $VERBOSE = nil
+    PAGINATE = false
+    $VERBOSE = original_verbosity
+  end
+  config.before(:each, :paginate => true) do
+    original_verbosity = $VERBOSE
+    $VERBOSE = nil
+    PAGINATE = true
+    $VERBOSE = original_verbosity
   end
 end
 
@@ -73,9 +86,26 @@ describe 'ec' do
     end
   end
   describe "GET /comments" do
-    it "returns the comments successfully" do
-      get "/comments", {:post => example_post}
-      expect_json_types({:comments => :array_of_objects})
+    context "pagination is off" do
+      it "returns the comments successfully", :paginate => false do
+        get URI.encode("/comments?post=#{example_post}")
+        expect_json_types({:comments => :array_of_objects})
+      end
+      it "it ignores page parameter", :paginate => false do
+        get URI.encode("/comments?post=#{example_post}&page=1")
+        expect_json_types({:comments => :array_of_objects})
+      end
+    end
+    context "pagination is on" do
+      it "returns the comments successfully", :paginate => true do
+        get URI.encode("/comments?post=#{example_post}&page=1")
+        expect_json_types({:comments => :array_of_objects, :page => :int, :total_pages => :int})
+      end
+      it "uses page 1 by default", :paginate => true do
+        get URI.encode("/comments?post=#{example_post}")
+        expect_json_types({:comments => :array_of_objects, :page => :int, :total_pages => :int})
+        expect(json_body[:page]).to be == 1
+      end
     end
   end
 end

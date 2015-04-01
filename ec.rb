@@ -29,7 +29,7 @@ class EC < Sinatra::Application
 
 
   get "/comments" do
-    get_comments(params[:post])
+    get_comments(params[:post], params[:page])
   end
 
   post "/comment" do

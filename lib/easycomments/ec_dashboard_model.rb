@@ -2,11 +2,13 @@ require_relative "../easycomments.rb"
 
 module ECDashboardModel
   extend self
-
-  def get_comments(post)
-    comments = DB[:comments].where(:post => post).all.sort_by{|comment| comment[:id].to_i}.reverse #show latest comment first
+  include Pagination
+  
+  def get_comments(post, page_num)
+    comments = DB[:comments].where(:post => post).page(page_num).all.sort_by{|comment| comment[:id].to_i}.reverse
+    count =  DB[:comments].where(:post => post).page(page_num).page_count
     comments = comments.each{|comment| comment[:timestamp] = comment[:timestamp].strftime(TIMESTAMP_FORMAT)}
-    MultiJson.dump({:comments => comments})
+    MultiJson.dump(:comments => comments, :page_count => count)
   end
 
   def get_all_posts
@@ -43,10 +45,11 @@ module ECDashboardModel
     MultiJson.dump({:pending => pending})
   end
 
-  def get_pending_comments(post)
-    comments = DB[:comments].where(:post => post, :action_taken => false).all.sort_by{|comment| comment[:id].to_i}.reverse #show latest comment first
+  def get_pending_comments(post, page_num)
+    comments = DB[:comments].where(:post => post, :action_taken => false).page(page_num).all.sort_by{|comment| comment[:id].to_i}.reverse
+    count =  DB[:comments].where(:post => post, :action_taken => false).page(page_num).page_count
     comments = comments.each{|comment| comment[:timestamp] = comment[:timestamp].strftime(TIMESTAMP_FORMAT)}
-    MultiJson.dump({:comments => comments})
+    MultiJson.dump({:comments => comments, :page_count => count})
   end
 
   def ignore_comment(id)

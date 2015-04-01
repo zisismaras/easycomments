@@ -19,7 +19,7 @@ class ECDashboard < Sinatra::Application
   end
 
   get "/comments" do
-    get_comments(params[:post])
+    get_comments(params[:post], params[:page])
   end
 
   get '/get_all_posts' do
@@ -47,7 +47,7 @@ class ECDashboard < Sinatra::Application
   end
 
   get '/get_pending_comments' do
-    get_pending_comments(params[:post])
+    get_pending_comments(params[:post], params[:page])
   end
 
   post '/ignore_comment' do

@@ -6,9 +6,11 @@ require 'rack/utils'
 require 'rack/protection'
 require 'bcrypt'
 require_relative "easycomments/ec_configuration.rb"
+require_relative "easycomments/ec_pagination.rb"
 
 VERSION = "1.0.3"
 
 include Configuration
 
 DB = Sequel.connect(CONNECTION)
+DB.extension(:pagination)

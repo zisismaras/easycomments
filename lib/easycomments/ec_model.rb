@@ -3,6 +3,7 @@ require_relative "../easycomments.rb"
 module ECModel
   
   extend self
+  include Pagination if PAGINATE
 
   def post_comment(comment)
     if comment[:body] != "undefined" && comment[:body] != ""
@@ -20,10 +21,19 @@ module ECModel
     end
   end
 
-  def get_comments(post)
-    comments = DB[:comments].where(:post => post, :approved => true).all.sort_by{|comment| comment[:id].to_i}.reverse #show latest comment first
-    comments = comments.each{|comment| comment[:timestamp] = comment[:timestamp].strftime(TIMESTAMP_FORMAT)}
-    MultiJson.dump({:comments => comments})
+  def get_comments(post, page_num)
+    if PAGINATE
+      comments = DB[:comments].where(:post => post, :approved => true).page(page_num).all.sort_by{|comment| comment[:id].to_i}.reverse
+      count =  DB[:comments].where(:post => post).page(page_num).page_count
+      comments = comments.each{|comment| comment[:timestamp] = comment[:timestamp].strftime(TIMESTAMP_FORMAT)}
+      page_num = 1 if page_num.nil?
+      response = {:comments => comments, :page => page_num.to_i, :total_pages => count}    
+    else
+      comments = DB[:comments].where(:post => post, :approved => true).all.sort_by{|comment| comment[:id].to_i}.reverse
+      comments = comments.each{|comment| comment[:timestamp] = comment[:timestamp].strftime(TIMESTAMP_FORMAT)}
+      response = {:comments => comments}
+    end
+    MultiJson.dump(response)
   end
 
   private
@@ -44,4 +54,5 @@ module ECModel
                     )   
     MultiJson.dump({:status => "New comment posted."})
   end
+
 end

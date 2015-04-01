@@ -9,6 +9,7 @@ Airborne.configure do |config|
     original_verbosity = $VERBOSE
     $VERBOSE = nil
     DB = Sequel.sqlite
+    DB.extension(:pagination)
     $VERBOSE = original_verbosity
     db_setup
   end
@@ -26,8 +27,12 @@ describe 'ec_dasboard' do
 
   describe "GET /comments" do
     it "returns the comments successfully" do
-      get "/comments", {:post => example_post}
-      expect_json_types({:comments => :array_of_objects})
+      get URI.encode("/comments?post=#{example_post}&page=1")
+      expect_json_types({:comments => :array_of_objects, :page_count => :int})
+    end
+    it "uses page 1 by default" do
+      get URI.encode("/comments?post=#{example_post}")
+      expect_json_types({:comments => :array_of_objects, :page_count => :int})
     end
   end
   describe "GET /get_all_posts" do
@@ -49,9 +54,13 @@ describe 'ec_dasboard' do
     end
   end
   describe "GET /get_pending_comments" do
-    it "returns the pending comments list for a post successfully" do
-      get "/get_pending_comments", {:post => example_post}
-      expect_json_types({:comments => :array_of_objects})
+    it "returns the comments successfully" do
+      get URI.encode("/get_pending_comments?post=#{example_post}&page=1")
+      expect_json_types({:comments => :array_of_objects, :page_count => :int})
+    end
+    it "uses page 1 by default" do
+      get URI.encode("/get_pending_comments?post=#{example_post}")
+      expect_json_types({:comments => :array_of_objects, :page_count => :int})
     end
   end
   describe "POST /edit_comment" do

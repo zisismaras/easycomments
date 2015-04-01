@@ -11,8 +11,8 @@ def db_setup
     String :email
     String :post
     String :body
-    TrueClass :approved, :default=>APPROVE_BY_DEFAULT
-    TrueClass :action_taken, :default=>false
+    TrueClass :approved, :default => true
+    TrueClass :action_taken, :default => false
     DateTime :timestamp
   end
 
