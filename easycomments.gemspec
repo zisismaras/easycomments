@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'easycomments'
-  s.version     = '1.0.3'
-  s.date        = '2015-03-31'
+  s.version     = '1.0.4'
+  s.date        = '2015-04-03'
   s.summary     = "Simple and easy to use comment system"
   s.description = <<EOF
 EasyComments(EC) is an easy to use comment system with a simple api

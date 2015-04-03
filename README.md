@@ -18,7 +18,7 @@ ec install
 ```
 (pass the --dev flag if you also want the spec suite)  
 Then
-```ruby
+```
 bundle install --without test development  
 or just  
 bundle install  

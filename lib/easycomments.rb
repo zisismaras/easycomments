@@ -8,7 +8,7 @@ require 'bcrypt'
 require_relative "easycomments/ec_configuration.rb"
 require_relative "easycomments/ec_pagination.rb"
 
-VERSION = "1.0.3"
+VERSION = "1.0.4"
 
 include Configuration
 
