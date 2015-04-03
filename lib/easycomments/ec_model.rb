@@ -23,13 +23,14 @@ module ECModel
 
   def get_comments(post, page_num)
     if PAGINATE
-      comments = DB[:comments].where(:post => post, :approved => true).page(page_num).all.sort_by{|comment| comment[:id].to_i}.reverse
+      comments = DB[:comments].where(:post => post, :approved => true).reverse(Sequel.asc(:timestamp)).page(page_num).all
       count =  DB[:comments].where(:post => post).page(page_num).page_count
       comments = comments.each{|comment| comment[:timestamp] = comment[:timestamp].strftime(TIMESTAMP_FORMAT)}
-      page_num = 1 if page_num.nil?
+      page_num = page_num.to_i
+      page_num = 1 if page_num < 1
       response = {:comments => comments, :page => page_num.to_i, :total_pages => count}    
     else
-      comments = DB[:comments].where(:post => post, :approved => true).all.sort_by{|comment| comment[:id].to_i}.reverse
+      comments = DB[:comments].where(:post => post, :approved => true).reverse(Sequel.asc(:timestamp)).all
       comments = comments.each{|comment| comment[:timestamp] = comment[:timestamp].strftime(TIMESTAMP_FORMAT)}
       response = {:comments => comments}
     end

@@ -85,19 +85,15 @@
         padding-top: 20px;
         padding-bottom: 20px;
       }
-      .pg_btn {
-        display:inline-block;
-        padding:0px 9px;
-        margin-right:4px;
-        box-shadow:inset 0px 1px 0px rgba(255,255,255, .8), 0px 1px 3px rgba(0,0,0, .1);
-        font-size:.875em;
-        text-shadow:0px 1px 0px rgba(255,255,255, 1)
+      .pg_input {
+         width: 83px;
       }
       .pg_btn::shadow #ripple {
         color: #FFA726;
       }
-      .pg_btn_active {
-        background-color: #FFA726;
+      paper-input-decorator /deep/ .focused-underline {
+        /* line color when the input is focused */
+        background-color: #FF9800;
       }
     </style>
     <core-ajax
@@ -219,15 +215,14 @@
           </paper-shadow>
         </template>
         <template if="{{comments.page_count > 1}}">
-          <div class="pagination" horizontal center-justified layout>
+          <paper-shadow class="pagination" horizontal center-justified layout>
               <paper-button class="pg_btn" on-click="{{firstPage}}">First</paper-button>
                 <paper-button disabled='{{current_page <= 1}}' class="pg_btn" on-click="{{prevPage}}">Previous</paper-button>
-              <template repeat="{{n in page_range}}">
-                  <paper-button id="page_btn_{{n}}" on-click="{{setPage}}" class="pg_btn {{n == current_page -1 ? 'pg_btn_active' : ' '}}">{{n+1}}</paper-button>
-              </template>
-                <paper-button  disabled='{{current_page >= comments.page_count}}' on-click="{{nextPage}}" class="pg_btn">Next</paper-button>
+                <paper-input-decorator class="pg_input"><input is="core-input" value="{{page_input}}"></paper-input-decorator>
+                <label class="pg_btn"><br>of {{comments.page_count}}</label>
+                <paper-button  disabled='{{current_page >= comments.total_pages}}' on-click="{{nextPage}}" class="pg_btn">Next</paper-button>
               <paper-button class="pg_btn" on-click="{{lastPage}}">Last</paper-button>
-          </div>
+          </paper-shadow>
         </template>
       </div>
     </core-scaffold>
@@ -240,6 +235,7 @@
           this.post_title = p;
           this.post_global = p;
           this.current_page = 1;
+          this.page_input = this.current_page;
           this.shadowRoot.querySelector("#get_all_comments").go();
         },
         getPendingComments: function(e, detail, sender){
@@ -247,6 +243,7 @@
           this.post_title = p;
           this.post_global = p;
           this.current_page = 1;
+          this.page_input = this.current_page;
           this.shadowRoot.querySelector("#get_pending_comments").go();
         },
         editComment: function(e, detail, sender){
@@ -302,6 +299,7 @@
         },
         firstPage: function () {
           this.current_page = 1;
+          this.page_input = this.current_page;
           if (this.selected == "0") {
             this.shadowRoot.querySelector("#get_pending_comments").go();
           }else {
@@ -310,6 +308,7 @@
         },
         lastPage: function () {
           this.current_page = this.comments.page_count;
+          this.page_input = this.current_page;
           if (this.selected == "0") {
             this.shadowRoot.querySelector("#get_pending_comments").go();
           }else {
@@ -318,6 +317,7 @@
         },
         prevPage: function () {
           this.current_page = this.current_page - 1;
+          this.page_input = this.current_page;
           if (this.selected == "0") {
             this.shadowRoot.querySelector("#get_pending_comments").go();
           }else {
@@ -326,42 +326,31 @@
         },
         nextPage: function () {
           this.current_page = this.current_page + 1;
-          console.log(this.selected);
+          this.page_input = this.current_page;
           if (this.selected == "0") {
             this.shadowRoot.querySelector("#get_pending_comments").go();
           }else {
             this.shadowRoot.querySelector("#get_all_comments").go();
           }
         },
-        setPage: function (e, detail, sender) {
-          var page = e.target.templateInstance.model.n + 1;
-          this.current_page = page;
-          if (this.selected == "0") {
-            this.shadowRoot.querySelector("#get_pending_comments").go();
-          }else {
-            this.shadowRoot.querySelector("#get_all_comments").go();
+        setPage: function (oldValue, newValue) {
+          if (oldValue != newValue && newValue > 0){
+            var value = Path.get('page_input').getValueFrom(this);
+            this.current_page = value;
+            if (this.selected == "0") {
+              this.shadowRoot.querySelector("#get_pending_comments").go();
+            }else {
+              this.shadowRoot.querySelector("#get_all_comments").go();
+            }
           }
         },
-        pageRange: function() {
-          var count = this.comments.page_count;
-          while(count > this.current_page + 4){
-            count = count -1;
-          }
-          this.page_range = Array.range(this.current_page - 1, count - 1);
+        observe: {
+          'page_input': 'setPage'
         },
         attached: function() {
           //open pending tab by default
           this.selected = "0";
         },
     });
-
-    Array.range= function(a, b){
-      var A= [];
-      A[0] = a;
-      while(a+1<= b){
-          A[A.length]= a+= 1;
-      }
-      return A;
-    }
   </script>
 </polymer-element>

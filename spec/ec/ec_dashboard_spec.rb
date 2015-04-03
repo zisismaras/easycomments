@@ -34,6 +34,10 @@ describe 'ec_dasboard' do
       get URI.encode("/comments?post=#{example_post}")
       expect_json_types({:comments => :array_of_objects, :page_count => :int})
     end
+    it "fallbacks to page 1 with wrong page input" do
+      get URI.encode("/comments?post=#{example_post}&page=-3")
+      expect_json_types({:comments => :array_of_objects, :page_count => :int})
+    end
   end
   describe "GET /get_all_posts" do
     it "returns the post list successfully" do
@@ -60,6 +64,10 @@ describe 'ec_dasboard' do
     end
     it "uses page 1 by default" do
       get URI.encode("/get_pending_comments?post=#{example_post}")
+      expect_json_types({:comments => :array_of_objects, :page_count => :int})
+    end
+    it "fallbacks to page 1 with wrong page input" do
+      get URI.encode("/get_pending_comments?post=#{example_post}&page=-3")
       expect_json_types({:comments => :array_of_objects, :page_count => :int})
     end
   end

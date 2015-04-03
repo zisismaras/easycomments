@@ -106,6 +106,11 @@ describe 'ec' do
         expect_json_types({:comments => :array_of_objects, :page => :int, :total_pages => :int})
         expect(json_body[:page]).to be == 1
       end
+      it "fallbacks to page 1 with wrong page input", :paginate => true do
+        get URI.encode("/comments?post=#{example_post}&page=-3")
+        expect_json_types({:comments => :array_of_objects, :page => :int, :total_pages => :int})
+        expect(json_body[:page]).to be == 1
+      end
     end
   end
 end

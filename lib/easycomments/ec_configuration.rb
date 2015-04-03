@@ -36,7 +36,7 @@ comments = <<COMMENTS
 #
 ##cors_origin : see available formats here https://github.com/cyu/rack-cors
 #
-##auto_escape_html : automatically escape html in comment bodys
+##auto_escape_html : automatically escape html in comment bodies
 #
 ##paginate : set to true to have pagination support in comment retrieval
 #

@@ -5,7 +5,7 @@ module ECDashboardModel
   include Pagination
   
   def get_comments(post, page_num)
-    comments = DB[:comments].where(:post => post).page(page_num).all.sort_by{|comment| comment[:id].to_i}.reverse
+    comments = DB[:comments].where(:post => post).reverse(Sequel.asc(:timestamp)).page(page_num).all
     count =  DB[:comments].where(:post => post).page(page_num).page_count
     comments = comments.each{|comment| comment[:timestamp] = comment[:timestamp].strftime(TIMESTAMP_FORMAT)}
     MultiJson.dump(:comments => comments, :page_count => count)
@@ -46,7 +46,7 @@ module ECDashboardModel
   end
 
   def get_pending_comments(post, page_num)
-    comments = DB[:comments].where(:post => post, :action_taken => false).page(page_num).all.sort_by{|comment| comment[:id].to_i}.reverse
+    comments = DB[:comments].where(:post => post, :action_taken => false).reverse(Sequel.asc(:timestamp)).page(page_num).all
     count =  DB[:comments].where(:post => post, :action_taken => false).page(page_num).page_count
     comments = comments.each{|comment| comment[:timestamp] = comment[:timestamp].strftime(TIMESTAMP_FORMAT)}
     MultiJson.dump({:comments => comments, :page_count => count})

@@ -19,7 +19,10 @@ ec install
 (pass the --dev flag if you also want the spec suite)  
 Then
 ```ruby
-bundle install
+bundle install --without test development  
+or just  
+bundle install  
+if --dev is on
 ```
 and you are ready.
 ##Configuring
@@ -38,7 +41,7 @@ to add your user.
 ##Endpoints
 EC has one endpoint for posting a new comment and one for retrieving a comment list.
 ```
-GET /comments, with a 'post' parameter 
+GET /comments, with a 'post' parameter and an optional 'page' parameter if you have pagination enabled.
 ```
 The 'post' parameter simply serves as a namespace to group comments for retrieval,
 it can be a blog post title, an url or something more sophisticated, it's up to you.
@@ -77,8 +80,14 @@ allow_cors: false
 #see available formats here https://github.com/cyu/rack-cors
 cors_origin: "*"  
 
-#set to false to not automatically escape html in comment bodys  
+#set to false to not automatically escape html in comment bodies
 auto_escape_html: true
+
+#set to true to have pagination support in comment retrieval  
+paginate: false  
+
+#how many comments to return per page if paginate is true  
+comments_per_page: 10
 ```
 
 ## Updating
@@ -93,7 +102,6 @@ It will recopy all the files but keeps your _config.yml and Gemfile.
 by hand since it also bcrypts your passwords!
 
 ##TODO:
-* pagination in GET /comments  
 * markdown support  
 * dynamic fields in POST /comment  
 
