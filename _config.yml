@@ -12,6 +12,7 @@ comments_per_page: 10
 ##connection : database connection url to be passed to sequel's connect method.
 ##check http://sequel.jeremyevans.net/rdoc/files/doc/opening_databases_rdoc.html
 ##all adapters supported by sequel can be used
+##you can also use an enviroment variable formatted as ENV["variable"] or just "variable" holding your db's url
 #
 ##approve_by_default : set to true to allow all coments to be posted without moderation.
 #
@@ -24,7 +25,7 @@ comments_per_page: 10
 #
 ##cors_origin : see available formats here https://github.com/cyu/rack-cors
 #
-##auto_escape_html : automatically escape html in comment bodys
+##auto_escape_html : automatically escape html in comment bodies
 #
 ##paginate : set to true to have pagination support in comment retrieval
 #

@@ -62,6 +62,7 @@ in _config.yml you can change the following
 #database connection url to be passed to sequel's connect method.
 #check http://sequel.jeremyevans.net/rdoc/files/doc/opening_databases_rdoc.html
 #all adapters supported by sequel can be used
+#you can also use an enviroment variable formatted as ENV["variable"] or just "variable" holding your db's url
 connection: "sqlite://blog.db"
 
 #set to true to allow all coments to be posted without moderation.
