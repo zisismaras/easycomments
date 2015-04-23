@@ -114,7 +114,7 @@ by hand since it also bcrypts your passwords!
 5. Create new Pull Request
 
 ###Tested with
-* Ruby 2.2.1
+* Ruby 2.2.2
 * Ruby 2.1.5
 * Ruby 2.0.0
 
